@@ -104,7 +104,10 @@ async function initCloud(showMessage=false){
       fbApp=firebase.apps.length?firebase.app():firebase.initializeApp(cfg);
       fbAuth=firebase.auth();fbDb=firebase.firestore();
       // LOCAL persistence must be established on every page load, before listening for auth state.
+      // Always select durable browser-local persistence before restoring the user.
       await fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      // Wait for Firebase to finish restoring the saved session before deciding whether the user is signed out.
+      if (typeof fbAuth.authStateReady === 'function') await fbAuth.authStateReady();
       fbAuth.onAuthStateChanged(user=>{
         if(cloudUnsub){cloudUnsub();cloudUnsub=null}
         cloudUser=user;cloudReady=false;
