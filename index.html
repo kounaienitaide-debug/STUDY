@@ -12,12 +12,57 @@
 .fill-answer-row label{min-width:42px;font-weight:700}
 .fill-answer-row input{flex:1;min-width:0}
 .quick-actions{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 8px}.practice-preview{margin-top:12px;padding:13px 14px;background:#f2f6f1;border:1px solid var(--line);border-radius:13px;font-size:13px;line-height:1.75}.practice-preview strong{color:var(--green)}.practice-preview .preview-label{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.04em}.practice-preview .preview-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}.practice-preview .preview-chip{background:#fff;border:1px solid #dce6dc;border-radius:7px;padding:3px 7px;font-size:11px;color:#476452}
+
+/* Study Plus */
+#studyPlusHome{margin:0 0 8px}
+.sp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.sp-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:7px;min-width:0}
+.sp-card h3{margin:0;font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.03em}
+.sp-big{font-size:34px;font-weight:850;line-height:1.1;color:var(--green);letter-spacing:-.5px}
+.sp-big small{font-size:15px;font-weight:750;margin-left:3px;color:var(--ink);letter-spacing:0}
+.sp-sub{font-size:12px;color:var(--muted);line-height:1.65}
+.sp-sub strong{color:var(--ink)}
+.sp-quota{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:9px;margin-top:2px}
+.sp-bar{height:8px;background:#e4ebe2;border-radius:99px;overflow:hidden;min-width:0}
+.sp-bar i{display:block;height:100%;background:#477d59;border-radius:99px}
+.sp-bar.low i{background:var(--red)}
+.sp-strip{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:3px;margin-top:3px}
+.sp-day{aspect-ratio:1;border-radius:5px;background:#e9eee7;font-size:9px;display:grid;place-items:center;color:#7d8b82}
+.sp-day.on{background:#477d59;color:#fff}
+.sp-day.today{outline:2px solid var(--gold);outline-offset:1px}
+.sp-card .btn{align-self:flex-start;margin-top:auto}
+.sp-edit{margin-top:auto;border-top:1px solid var(--line);padding-top:8px}
+.sp-edit summary{cursor:pointer;font-size:12px;font-weight:800;color:var(--green)}
+.sp-form{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.sp-form input{width:100%;border:1px solid #d8e1d7;border-radius:11px;padding:9px 11px;background:#fff;color:var(--ink);outline:none}
+.sp-form input:focus{border-color:#729c7e;box-shadow:0 0 0 3px #dceee1}
+.sp-form-actions{display:flex;gap:6px;flex-wrap:wrap}
+.sp-form-actions .btn{margin-top:0}
+.sp-acc{margin-bottom:6px}
+.sp-acc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.sp-acc-head p{margin-bottom:0}
+.sp-seg{display:flex;gap:6px}
+.sp-acc-row{display:grid;grid-template-columns:minmax(80px,130px) minmax(0,1fr) 92px auto;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.sp-acc-label{font-weight:750;font-size:14px;min-width:0;overflow-wrap:anywhere}
+.sp-acc-label small{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+.sp-acc-val{font-size:13px;text-align:right;white-space:nowrap}
+.sp-acc-val small{color:var(--muted)}
+.tag.sp-weak{background:#fff0ef;color:var(--red);margin-left:4px;vertical-align:1px}
+@media(max-width:680px){
+ .sp-grid{grid-template-columns:1fr}
+ .sp-acc-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"label val" "bar btn";row-gap:6px}
+ .sp-acc-row .sp-acc-label{grid-area:label}
+ .sp-acc-row .sp-acc-val{grid-area:val}
+ .sp-acc-row .sp-bar{grid-area:bar}
+ .sp-acc-row .btn{grid-area:btn}
+}
 </style></head>
 <body><main class="app">
-<header class="top"><div class="brand"><div class="logo">✓</div><div><h1>Wake & Solve</h1><p>解いて、積み上げる。</p></div></div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><button class="btn small light" onclick="showView('trash')">削除した問題</button><span class="pill">MANUAL v1.9</span></div></header>
+<header class="top"><div class="brand"><div class="logo">✓</div><div><h1>Wake & Solve</h1><p>解いて、積み上げる。</p></div></div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><button class="btn small light" onclick="showView('trash')">削除した問題</button><span class="pill">MANUAL v2.0</span></div></header>
 <section id="homeView">
 <div class="hero"><div class="eyebrow">YOUR PERSONAL QUESTION BANK</div><h2>知識を、使える力に。</h2><p>自分で問題を登録して、好きなときに演習。間違えた問題は、あとでまとめて復習しよう。</p><div class="actions"><button class="btn primary" onclick="showView('practice')">▶ 演習を始める</button><button class="btn ghost" onclick="showView('add')">＋ 問題を追加</button><button class="btn ghost" onclick="exportData()">↓ バックアップを作成</button><button class="btn ghost" onclick="document.getElementById('homeImportFile').click()">↑ JSONから復元</button><input class="hidden" id="homeImportFile" type="file" accept="application/json,.json" onchange="importData(event)"></div></div>
 <div class="stats"><div class="stat"><span>登録した問題</span><strong id="statTotal">0</strong></div><div class="stat"><span>累計回答数</span><strong id="statAnswered">0</strong></div><div class="stat"><span>正答率</span><strong id="statRate">--%</strong></div></div><div style="display:flex;justify-content:flex-end;margin:-8px 0 16px"><button class="btn small light" onclick="showView('history')">解答履歴を見る →</button></div>
+<div id="studyPlusHome"></div>
 <div class="sectionhead"><div><h2>学習メニュー</h2><p>今日の勉強をここからスタート</p></div></div><div class="grid">
 <div class="panel"><h3> 問題を作る</h3><p>問題文・答え・解説を自由に登録。科目や単元も整理できる。</p><button class="btn primary" onclick="showView('add')">問題を追加する</button></div>
 <div class="panel"><h3> 問題演習</h3><p>全問題、科目別、間違えた問題だけ。好きな範囲でトレーニング。</p><button class="btn light" onclick="showView('practice')">演習を設定する</button></div><div class="panel"><h3>学習履歴</h3><p>これまでに解いた問題と、そのときの自分の解答を確認できます。</p><button class="btn light" onclick="showView('history')">解答履歴を見る</button></div><div class="panel"><h3>共有問題集</h3><p>問題集を公開したり、友人の問題集を追加・更新したりできます。</p><button class="btn light" onclick="showView('shared')">共有問題集を開く</button></div></div><div class="sectionhead"><div><h2>最近追加した問題</h2><p>自分だけの問題集</p></div><button class="btn small light" onclick="showView('library')">すべて見る</button></div><div id="recentList" class="question-list"></div>
@@ -27,12 +72,228 @@
 <section id="trashView" class="hidden"><div class="sectionhead"><div><h2>削除した問題</h2><p id="trashCount">7日以内なら復元できます。期限を過ぎると自動的に完全削除されます。</p></div><button class="btn small light" onclick="showView('library')">問題一覧へ</button></div><div id="trashList" class="question-list"></div><div class="note">削除から7日が経過した問題は自動的に完全削除されます。手動で完全削除することもできます。</div></section>
 <section id="historyView" class="hidden"><div class="sectionhead"><div><h2>解答履歴</h2><p id="historyCount">これまでに解いた問題を新しい順に表示します。</p></div><button class="btn small light" onclick="showView('home')">ホームへ戻る</button></div><div class="toolbar"><select id="historyFilter" onchange="renderAttemptHistory()"><option value="all">すべての結果</option><option value="correct">正解</option><option value="wrong">不正解</option><option value="skipped">スキップ</option></select></div><div id="historyList" class="question-list"></div></section>
 <section id="sharedView" class="hidden"><div class="sectionhead"><div><h2>共有問題集</h2><p>公開ライブラリと招待コードで問題集を共有できます。</p></div><button class="btn small light" onclick="showView('home')">ホームへ戻る</button></div><div class="panel"><h3>自分の問題集を共有</h3><p>現在の問題一覧、または選択したJSONファイルを共有用の問題集として公開します。あとから内容を更新できます。</p><div class="field"><label for="shareBookTitle">問題集の名前</label><input id="shareBookTitle" maxlength="60" placeholder="例：北大生物 遺伝演習"></div><div class="field"><label for="shareBookDescription">説明（任意）</label><textarea id="shareBookDescription" maxlength="300" placeholder="問題集の内容や対象者"></textarea></div><div class="field"><label for="shareBookVisibility">公開範囲</label><select id="shareBookVisibility"><option value="private">招待コードを知っている人だけ</option><option value="public">公開ライブラリに掲載（誰でも追加可能）</option></select></div><div class="field"><label for="sharedBookJsonFile">共有するJSONファイル（任意）</label><input id="sharedBookJsonFile" type="file" accept="application/json,.json" onchange="loadSharedBookJson(event)"><small class="muted">選択すると、アプリ内の問題一覧ではなく、このJSONに含まれる問題を共有します。Wake &amp; SolveのバックアップJSON・問題集JSONに対応します。</small><div id="sharedBookJsonStatus" class="muted" style="margin-top:7px">ファイル未選択：現在の問題一覧を共有します。</div><button type="button" class="btn small light" style="margin-top:7px" onclick="clearSharedBookJson()">ファイル選択を解除</button></div><button class="btn primary" onclick="runSharedAction(this,'create-book',()=>createSharedBook())">この問題集を共有する</button><div id="mySharedBooks" class="question-list" style="margin-top:14px"></div></div><div class="panel" style="margin-top:14px"><h3>招待コードで追加</h3><p>友人から受け取ったコードを入力してください。</p><div class="row"><input id="shareJoinCode" placeholder="招待コード" autocapitalize="characters"><button class="btn light" onclick="joinSharedBookByCode()">追加</button></div></div><div class="panel" style="margin-top:14px"><h3>公開ライブラリ</h3><p>公開されている問題集を検索して、自分のライブラリに追加できます。</p><div class="row"><input id="publicBookSearch" type="search" placeholder="問題集名・説明・作成者で検索" oninput="renderPublicSharedBooks()"><button class="btn light" onclick="loadPublicSharedBooks()">再読み込み</button></div><div id="publicSharedBooks" class="question-list" style="margin-top:12px"></div></div><div class="panel" style="margin-top:14px"><h3>追加済みの問題集</h3><p>共有元の更新をアプリ内で取り込みます。個人の解答履歴・正答率は維持されます。</p><div id="joinedSharedBooks" class="question-list"></div></div><div class="note">共有機能の利用にはログインが必要です。問題集の内容は共有元が更新したあと、ここで「更新を取り込む」を押すと反映されます。自分の学習記録は共有されません。</div></section>
-<section id="practiceView" class="hidden"><div class="sectionhead"><div><h2>演習を設定</h2><p>目的に合わせて問題を選ぼう</p></div></div><div class="panel"><details id="practiceSettings"><summary style="cursor:pointer;font-weight:800;color:var(--green);padding:4px 0 12px">演習内容の設定を開く・閉じる</summary><div class="field"><label>対象科目（複数選択可）</label><div class="quick-actions"><button type="button" class="btn small light" onclick="clearIncludedPracticeSubjects()">全科目を対象にする</button></div><div id="practiceSubjectOptions" class="tags"></div><div class="muted">何も選択しない場合は全科目が対象です。</div></div><div class="field"><label>除外する科目</label><div class="quick-actions"><button type="button" class="btn small light" onclick="clearExcludedPracticeSubjects()">除外を解除</button></div><div id="excludedSubjectOptions" class="tags"></div><div class="muted">選択した科目の問題を出題対象から除外します。対象科目と重なった場合も、除外が優先されます。</div></div><div class="field"><label for="practiceTagFilter">タグで検索（任意）</label><input id="practiceTagFilter" type="search" list="existingTagList" onfocus="renderExistingTagList()" oninput="practiceSettingsChanged()" placeholder="例：遺伝、北大対策、記述式"><div class="row" style="align-items:center;margin-top:7px"><label for="practiceTagMatch" class="muted" style="flex:0 0 auto">複数タグの条件</label><select id="practiceTagMatch" onchange="practiceSettingsChanged()"><option value="or">OR：いずれかを含む</option><option value="and">AND：すべてを含む</option></select></div><div class="muted">複数のタグは「、」「,」「，」などで区切れます。タグ名の一部でも検索できます。</div></div><div class="field"><label for="excludedTagSelect">出題しないタグ</label><input id="excludedTagSearch" type="search" placeholder="除外タグを検索…" oninput="renderExcludedTagOptions()"><div class="row" style="align-items:center"><select id="excludedTagSelect"><option value="">タグを選択…</option></select><button class="btn light" type="button" onclick="addExcludedPracticeTag()">追加</button></div><div id="excludedTagOptions" class="tags" style="margin-top:4px"></div><div class="quick-actions"><button type="button" class="btn small light" onclick="clearExcludedPracticeTags()">除外タグをすべて解除</button></div><div class="muted">検索してタグを選び「追加」を押すと除外対象になります。選択したタグが1つでも付いている問題は、今回の演習から除外します。</div></div><div class="field"><label for="practiceDifficulty">難易度</label><select id="practiceDifficulty" onchange="practiceSettingsChanged()"><option value="">全難易度</option><option value="基礎">基礎</option><option value="標準">標準</option><option value="応用">応用</option></select></div><div class="field"><label for="practiceMode">出題範囲</label><select id="practiceMode" onchange="practiceSettingsChanged()"><option value="all">すべての問題</option><option value="wrong">間違えた問題だけ</option><option value="unseen">まだ回答していない問題</option></select></div><div class="field"><label for="practiceCount">問題数</label><select id="practiceCount" onchange="practiceSettingsChanged()"><option value="5">5問</option><option value="10" selected>10問</option><option value="20">20問</option><option value="all">すべて</option></select></div></details><div class="quick-actions" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn small light" onclick="resetPracticeSettings()">設定を初期化</button></div><button class="btn primary" style="width:100%;margin-top:8px" onclick="startPractice()">演習スタート →</button><p id="practiceHint" style="margin-top:12px">問題を登録すると、ここから演習を始められる。</p><div id="practicePreview" class="practice-preview" aria-live="polite">出題条件を確認しています…</div><div id="practiceDirectionBox" class="field hidden" style="margin-top:14px"><label for="practiceDirection">リバーシブル問題の出題方向</label><select id="practiceDirection" onchange="practiceSettingsChanged()"><option value="forward">問題 → 答え</option><option value="reverse">答え → 問題</option></select><div class="muted">今回の候補がリバーシブルタグ付きの問題だけの場合に選択できます。</div></div></div><div id="quizArea" class="quizbox" style="margin-top:16px"></div></section>
+<section id="practiceView" class="hidden"><div class="sectionhead"><div><h2>演習を設定</h2><p>目的に合わせて問題を選ぼう</p></div></div><div class="panel"><details id="practiceSettings"><summary style="cursor:pointer;font-weight:800;color:var(--green);padding:4px 0 12px">演習内容の設定を開く・閉じる</summary><div class="field"><label>対象科目（複数選択可）</label><div class="quick-actions"><button type="button" class="btn small light" onclick="clearIncludedPracticeSubjects()">全科目を対象にする</button></div><div id="practiceSubjectOptions" class="tags"></div><div class="muted">何も選択しない場合は全科目が対象です。</div></div><div class="field"><label>除外する科目</label><div class="quick-actions"><button type="button" class="btn small light" onclick="clearExcludedPracticeSubjects()">除外を解除</button></div><div id="excludedSubjectOptions" class="tags"></div><div class="muted">選択した科目の問題を出題対象から除外します。対象科目と重なった場合も、除外が優先されます。</div></div><div class="field"><label for="practiceTagFilter">タグで検索（任意）</label><input id="practiceTagFilter" type="search" list="existingTagList" onfocus="renderExistingTagList()" oninput="practiceSettingsChanged()" placeholder="例：遺伝、北大対策、記述式"><div class="row" style="align-items:center;margin-top:7px"><label for="practiceTagMatch" class="muted" style="flex:0 0 auto">複数タグの条件</label><select id="practiceTagMatch" onchange="practiceSettingsChanged()"><option value="or">OR：いずれかを含む</option><option value="and">AND：すべてを含む</option></select></div><div class="muted">複数のタグは「、」「,」「，」などで区切れます。タグ名の一部でも検索できます。</div></div><div class="field"><label for="excludedTagSelect">出題しないタグ</label><input id="excludedTagSearch" type="search" placeholder="除外タグを検索…" oninput="renderExcludedTagOptions()"><div class="row" style="align-items:center"><select id="excludedTagSelect"><option value="">タグを選択…</option></select><button class="btn light" type="button" onclick="addExcludedPracticeTag()">追加</button></div><div id="excludedTagOptions" class="tags" style="margin-top:4px"></div><div class="quick-actions"><button type="button" class="btn small light" onclick="clearExcludedPracticeTags()">除外タグをすべて解除</button></div><div class="muted">検索してタグを選び「追加」を押すと除外対象になります。選択したタグが1つでも付いている問題は、今回の演習から除外します。</div></div><div class="field"><label for="practiceDifficulty">難易度</label><select id="practiceDifficulty" onchange="practiceSettingsChanged()"><option value="">全難易度</option><option value="基礎">基礎</option><option value="標準">標準</option><option value="応用">応用</option></select></div><div class="field"><label for="practiceMode">出題範囲</label><select id="practiceMode" onchange="practiceSettingsChanged()"><option value="all">すべての問題</option><option value="wrong">間違えた問題だけ</option><option value="unseen">まだ回答していない問題</option><option value="due">今日の復習（間隔反復）</option></select></div><div class="field"><label for="practiceCount">問題数</label><select id="practiceCount" onchange="practiceSettingsChanged()"><option value="5">5問</option><option value="10" selected>10問</option><option value="20">20問</option><option value="all">すべて</option></select></div></details><div class="quick-actions" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn small light" onclick="resetPracticeSettings()">設定を初期化</button></div><button class="btn primary" style="width:100%;margin-top:8px" onclick="startPractice()">演習スタート →</button><p id="practiceHint" style="margin-top:12px">問題を登録すると、ここから演習を始められる。</p><div id="practicePreview" class="practice-preview" aria-live="polite">出題条件を確認しています…</div><div id="practiceDirectionBox" class="field hidden" style="margin-top:14px"><label for="practiceDirection">リバーシブル問題の出題方向</label><select id="practiceDirection" onchange="practiceSettingsChanged()"><option value="forward">問題 → 答え</option><option value="reverse">答え → 問題</option></select><div class="muted">今回の候補がリバーシブルタグ付きの問題だけの場合に選択できます。</div></div></div><div id="quizArea" class="quizbox" style="margin-top:16px"></div></section>
 <section id="alarmView" class="hidden"><div class="sectionhead"><div><h2>ログイン・アカウント</h2><p>ログインすると問題と学習記録を端末間で同期できます。</p></div></div><div class="panel" id="cloudPanel" style="margin-bottom:18px"><h3> クラウド同期</h3><p id="cloudStatus">設定後、ログインすると問題と学習記録を端末間で同期できます。</p><p class="muted">Firebase接続は自動設定されています。</p><div class="field"><label>メールアドレス</label><input id="cloudEmail" type="email" autocomplete="email" placeholder="you@example.com"></div><div class="field"><label>パスワード（6文字以上）</label><input id="cloudPassword" type="password" autocomplete="current-password" placeholder="パスワード"></div><div class="actions" style="margin-top:0"><button class="btn primary" onclick="cloudSignIn()">ログイン</button><button class="btn light" onclick="cloudSignUp()">新規登録</button><button class="btn light" onclick="cloudSignOut()">ログアウト</button></div><p class="muted" id="cloudUser"></p></div></section>
 <footer>Wake & Solve · Manual Question Bank Prototype</footer>
 </main><nav class="bottomnav"><button class="navbtn active" data-view="home" onclick="showView('home')"><span>⌂</span>ホーム</button><button class="navbtn" data-view="add" onclick="showView('add')"><span>＋</span>問題追加</button><button class="navbtn" data-view="practice" onclick="showView('practice')"><span>✎</span>演習</button><button class="navbtn" data-view="library" onclick="showView('library')"><span>▤</span>問題一覧</button><button class="navbtn" data-view="alarm" onclick="showView('alarm')"><span>○</span>ログイン</button></nav><button id="scrollTopBtn" class="btn primary" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="ページの先頭へ戻る" title="先頭へ戻る">↑</button><div id="toast" class="toast hidden" role="status"></div>
 <script>
 const KEY='wakeSolveQuestions_v05';const TRASH_KEY='wakeSolveTrash_v1';const HISTORY_KEY='wakeSolveLearningHistory_v1';let learningHistory=loadLearningHistory();let storageAvailable=true;let questions=load();let deletedQuestions=loadTrash();let selectedQuestionIds=new Set();let bulkSelectMode=false;let excludedPracticeTags=new Set();let quiz=null;let toastTimer;let pendingExplanationImages=[];let pendingQuestionImages=[];
+/* ===== Study Plus v1: 間隔反復 / ストリーク / 分野別正答率 / 試験日カウントダウン ===== */
+const SP_KEY='wakeSolveStudyPlus_v1';
+const SRS_INTERVALS=[0,1,3,7,14,30]; // 箱番号 → 次の復習までの日数（箱1=1日後, 箱2=3日後, 箱3=7日後, 箱4=14日後, 箱5=30日後）
+const SP_META_TAGS=['選択式','複数選択','穴埋め式','記述式','リバーシブル','思考問題'];
+const SP_COMMON_TEST={name:'共通テスト',date:'2027-01-16'};
+let spAccMode='subject',spAccShowAll=false;
+
+function spDateStr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function spToday(){return spDateStr(new Date())}
+function spParse(s){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s||''));if(!m)return null;const d=new Date(+m[1],+m[2]-1,+m[3]);return isNaN(d)?null:d}
+function spAddDays(s,n){const d=spParse(s);d.setDate(d.getDate()+n);return spDateStr(d)}
+function spDiffDays(a,b){const x=spParse(a),y=spParse(b);return Math.round((Date.UTC(y.getFullYear(),y.getMonth(),y.getDate())-Date.UTC(x.getFullYear(),x.getMonth(),x.getDate()))/86400000)}
+function spCanon(v){if(Array.isArray(v))return '['+v.map(spCanon).join(',')+']';if(v&&typeof v==='object')return '{'+Object.keys(v).sort().map(k=>JSON.stringify(k)+':'+spCanon(v[k])).join(',')+'}';return JSON.stringify(v===undefined?null:v)}
+
+function spNormalize(x){
+ x=x&&typeof x==='object'?x:{};
+ const sp={examDate:'',examName:'',examUpdatedAt:String(x.examUpdatedAt||''),days:{},srs:{},seeded:!!x.seeded};
+ if(spParse(x.examDate)){sp.examDate=x.examDate;sp.examName=String(x.examName||'').slice(0,30)}
+ if(x.days&&typeof x.days==='object')for(const [k,v] of Object.entries(x.days)){const n=Math.floor(Number(v));if(spParse(k)&&n>0)sp.days[k]=n}
+ if(x.srs&&typeof x.srs==='object')for(const [id,e] of Object.entries(x.srs)){
+  if(!e||typeof e!=='object')continue;
+  const entry={box:Math.max(0,Math.floor(Number(e.box))||0),due:spParse(e.due)?e.due:'',at:String(e.at||'')};
+  if(e.done)entry.done=true;if(e.none)entry.none=true;
+  sp.srs[id]=entry;
+ }
+ return sp;
+}
+function spPruneDays(sp){const keys=Object.keys(sp.days).sort();while(keys.length>400)delete sp.days[keys.shift()]}
+function spSaveLocal(){try{localStorage.setItem(SP_KEY,JSON.stringify(studyPlus))}catch(e){}}
+function spSave(){spSaveLocal();if(cloudUser&&!applyingCloud)cloudSave()}
+
+function loadStudyPlus(){
+ let raw=null;try{raw=JSON.parse(localStorage.getItem(SP_KEY)||'null')}catch(e){}
+ const sp=spNormalize(raw);
+ if(!sp.seeded){
+  // 初回だけ、既存の学習履歴から連続日数を復元し、直近で間違えた問題を「今日の復習」に登録する。
+  try{
+   const recs=Array.isArray(learningHistory.__records)?learningHistory.__records:[];
+   for(const r of recs){if(!r||r.status==='skipped')continue;const d=new Date(r.at);if(isNaN(d))continue;const k=spDateStr(d);sp.days[k]=(sp.days[k]||0)+1}
+   for(const q of questions){if(q&&q.lastResult===false&&sp.srs[String(q.id)]===undefined)sp.srs[String(q.id)]={box:1,due:spDateStr(new Date()),at:''}}
+  }catch(e){}
+  sp.seeded=true;
+  try{localStorage.setItem(SP_KEY,JSON.stringify(sp))}catch(e){}
+ }
+ return sp;
+}
+let studyPlus=loadStudyPlus();
+
+// クラウド・バックアップとの統合。戻り値は「統合結果が相手側と違うか（=保存し直す必要があるか）」。
+function mergeStudyPlus(remoteRaw){
+ const r=spNormalize(remoteRaw),m=spNormalize(studyPlus);
+ if((r.examUpdatedAt||'')>(m.examUpdatedAt||'')){m.examDate=r.examDate;m.examName=r.examName;m.examUpdatedAt=r.examUpdatedAt}
+ for(const [k,v] of Object.entries(r.days))m.days[k]=Math.max(m.days[k]||0,v);
+ for(const [id,e] of Object.entries(r.srs)){const cur=m.srs[id];if(!cur||String(e.at||'')>String(cur.at||''))m.srs[id]=e}
+ m.seeded=!!(studyPlus.seeded||r.seeded);
+ spPruneDays(m);
+ const needsSave=spCanon(m)!==spCanon(r);
+ studyPlus=m;spSaveLocal();
+ return needsSave;
+}
+
+/* ---- 間隔反復（ライトナー式）----
+   間違えた → 箱1（翌日に復習）。復習日に正解 → 1つ上の箱へ（3日→7日→14日→30日）。
+   復習日に間違えた → 箱1に戻る。箱5の復習に正解 → 習得済み。
+   一度も間違えていない問題は登録しない。復習日より前の正解では箱を進めない。 */
+function spActive(e){return !!e&&!e.done&&!e.none&&!!e.due}
+function spIsDue(q){const e=studyPlus.srs[String(q.id)];return spActive(e)&&e.due<=spToday()}
+function spApplySrs(id,ok,today,now){
+ const cur=studyPlus.srs[id];
+ if(!ok){studyPlus.srs[id]={box:1,due:spAddDays(today,SRS_INTERVALS[1]),at:now};return}
+ if(!spActive(cur)||cur.due>today)return;
+ const nb=cur.box+1;
+ if(nb>=SRS_INTERVALS.length)studyPlus.srs[id]={box:cur.box,due:'',at:now,done:true};
+ else studyPlus.srs[id]={box:nb,due:spAddDays(today,SRS_INTERVALS[nb]),at:now};
+}
+function spOnResult(q,ok){
+ const id=String(q.id),today=spToday(),now=new Date().toISOString();
+ if(quiz){quiz.spPrev=quiz.spPrev||{};quiz.spPrev[id]=studyPlus.srs[id]?{...studyPlus.srs[id]}:null}
+ studyPlus.days[today]=(studyPlus.days[today]||0)+1;
+ spApplySrs(id,ok,today,now);
+ spPruneDays(studyPlus);spSave();
+}
+function spOnFlip(q,nowOk){ // 「判定を反転」したとき、直前の状態に戻してからやり直す
+ const id=String(q.id),today=spToday(),now=new Date().toISOString();
+ if(!quiz||!quiz.spPrev||!Object.prototype.hasOwnProperty.call(quiz.spPrev,id))return;
+ const prev=quiz.spPrev[id];
+ studyPlus.srs[id]=prev?{...prev,at:now}:{box:0,due:'',at:now,none:true};
+ spApplySrs(id,nowOk,today,now);
+ spSave();
+}
+function spDueList(){
+ const today=spToday(),byId=new Map(questions.map(q=>[String(q.id),q])),out=[];
+ for(const [id,e] of Object.entries(studyPlus.srs)){if(spActive(e)&&e.due<=today&&byId.has(id))out.push({q:byId.get(id),due:e.due,box:e.box})}
+ return out;
+}
+function spSortDue(arr){ // 期限が古い順。同じ日の中は元の（ランダム）順を保つ
+ const due=q=>studyPlus.srs[String(q.id)]?.due||'9999-99-99';
+ return arr.map((q,i)=>[q,i]).sort((a,b)=>{const x=due(a[0]),y=due(b[0]);return x<y?-1:x>y?1:a[1]-b[1]}).map(p=>p[0]);
+}
+function spUpcoming(){
+ const today=spToday(),byId=new Set(questions.map(q=>String(q.id)));let tomorrow=0,week=0,mastered=0;
+ for(const [id,e] of Object.entries(studyPlus.srs)){
+  if(!byId.has(id))continue;
+  if(e.done){mastered++;continue}
+  if(!spActive(e))continue;
+  const d=spDiffDays(today,e.due);
+  if(d===1)tomorrow++;if(d>=1&&d<=7)week++;
+ }
+ return {tomorrow,week,mastered};
+}
+
+/* ---- ストリーク ---- */
+function spStreak(){
+ const days=studyPlus.days,today=spToday();
+ let cur=0,d=days[today]?today:spAddDays(today,-1);
+ while(days[d]>0){cur++;d=spAddDays(d,-1)}
+ const keys=Object.keys(days).filter(k=>days[k]>0).sort();let best=0,run=0,prev=null;
+ for(const k of keys){run=(prev&&spDiffDays(prev,k)===1)?run+1:1;if(run>best)best=run;prev=k}
+ return {cur,best,studiedToday:!!days[today],doneToday:days[today]||0};
+}
+
+/* ---- 試験日 ---- */
+function spExamInfo(){if(!studyPlus.examDate)return null;return {date:studyPlus.examDate,name:studyPlus.examName,left:spDiffDays(spToday(),studyPlus.examDate)}}
+function spSetExam(date,name){
+ if(date&&!spParse(date)){toast('試験日を正しく入力してください');return}
+ studyPlus.examDate=date||'';studyPlus.examName=date?String(name||'').trim().slice(0,30):'';studyPlus.examUpdatedAt=new Date().toISOString();
+ spSave();renderStudyPlus();toast(date?'試験日を保存しました':'試験日を解除しました');
+}
+function spSaveExam(){const date=document.getElementById('spExamDate')?.value||'';if(!date){toast('試験日を入力してください');return}spSetExam(date,document.getElementById('spExamName')?.value||'')}
+function spQuickExam(){spSetExam(SP_COMMON_TEST.date,SP_COMMON_TEST.name)}
+function spClearExam(){if(confirm('試験日の設定を解除しますか？'))spSetExam('','')}
+
+/* ---- 演習への入口 ---- */
+function spResetPracticeFields(values){
+ selectedPracticeSubjects.clear();excludedPracticeSubjects.clear();excludedPracticeTags.clear();
+ const base={practiceTagFilter:'',practiceTagMatch:'or',practiceDifficulty:'',practiceMode:'all',practiceCount:'10',...values};
+ Object.entries(base).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v});
+}
+function spStartReview(){
+ spResetPracticeFields({practiceMode:'due',practiceCount:'20'});
+ showView('practice');syncPracticeSubjectChecks();savePracticeSettings();updatePracticePreview();startPractice();
+}
+function spPracticeBy(kind,label){
+ spResetPracticeFields(kind==='tag'?{practiceTagFilter:label}:{});
+ if(kind==='subject'&&practiceSubjects.includes(label))selectedPracticeSubjects.add(label);
+ showView('practice');syncPracticeSubjectChecks();savePracticeSettings();updatePracticePreview();
+}
+function spSetAccMode(mode){spAccMode=mode==='tag'?'tag':'subject';spAccShowAll=false;renderStudyPlus()}
+function spToggleAccAll(){spAccShowAll=!spAccShowAll;renderStudyPlus()}
+
+/* ---- 描画 ---- */
+function spAccuracyRows(){
+ const map=new Map();
+ for(const q of questions){
+  const att=Number(q.attempts)||0,cor=Number(q.correct)||0;
+  const labels=spAccMode==='subject'?[q.subject||'その他']:parseTags(q.unit).filter(t=>!SP_META_TAGS.includes(t));
+  for(const lb of labels){const r=map.get(lb)||{label:lb,n:0,att:0,cor:0};r.n++;r.att+=att;r.cor+=cor;map.set(lb,r)}
+ }
+ const rows=[...map.values()].map(r=>({...r,rate:r.att?Math.min(100,Math.round(r.cor/r.att*100)):null}));
+ rows.sort((a,b)=>{
+  if((a.rate===null)!==(b.rate===null))return a.rate===null?1:-1;
+  if(a.rate!==b.rate&&a.rate!==null)return a.rate-b.rate;
+  return b.att-a.att||b.n-a.n;
+ });
+ return rows;
+}
+function spExamCardHtml(due,unseen,doneToday){
+ const ex=spExamInfo();
+ const form=`<details class="sp-edit"${ex?'':' open'}><summary>${ex?'試験日を変更':'試験日を設定する'}</summary><div class="sp-form"><input id="spExamName" maxlength="30" placeholder="試験名（任意）" value="${esc(studyPlus.examName)}"><input id="spExamDate" type="date" value="${esc(studyPlus.examDate)}"><div class="sp-form-actions"><button class="btn small primary" type="button" onclick="spSaveExam()">保存</button><button class="btn small light" type="button" onclick="spQuickExam()">共通テスト 2027/1/16</button>${ex?'<button class="btn small danger" type="button" onclick="spClearExam()">解除</button>':''}</div></div></details>`;
+ let body;
+ if(!ex){
+  body=`<div class="sp-sub">試験日を設定すると、あと何日か、1日にどれくらい解けばよいかが分かります。</div>`;
+ }else{
+  const label=esc(ex.name||'試験日');
+  const dateText=spParse(ex.date).toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
+  if(ex.left>0){
+   const perDay=unseen?Math.ceil(unseen/ex.left):0,target=due+perDay,pct=target?Math.min(100,Math.round(doneToday/target*100)):0;
+   body=`<div class="sp-big">あと${ex.left}<small>日</small></div><div class="sp-sub">${label}　${esc(dateText)}</div><div class="sp-quota"><div class="sp-sub"><strong>今日の目安</strong>　${target?`復習 ${due}問 ＋ 未回答 ${perDay}問`:'復習・未回答の問題はありません'}</div>${target?`<div class="sp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${target}" aria-valuenow="${Math.min(doneToday,target)}" aria-label="今日の目安の達成度"><i style="width:${pct}%"></i></div><div class="sp-sub">今日 ${doneToday}問 ／ 目安 ${target}問${doneToday>=target?'　✓ 達成':''}</div>`:''}<div class="sp-sub">未回答 ${unseen}問 ÷ 残り${ex.left}日 で計算</div></div>`;
+  }else if(ex.left===0){
+   body=`<div class="sp-big">今日</div><div class="sp-sub">${label}の当日です。${esc(dateText)}</div>`;
+  }else{
+   body=`<div class="sp-big">${-ex.left}<small>日経過</small></div><div class="sp-sub">${label}　${esc(dateText)}</div>`;
+  }
+ }
+ return `<div class="sp-card"><h3>試験日までのカウントダウン</h3>${body}${form}</div>`;
+}
+function spStreakCardHtml(st){
+ const today=spToday();let strip='';
+ for(let i=13;i>=0;i--){const d=spAddDays(today,-i),n=studyPlus.days[d]||0,dd=spParse(d);strip+=`<span class="sp-day${n?' on':''}${i===0?' today':''}" title="${dd.getMonth()+1}/${dd.getDate()}：${n}問" aria-label="${dd.getMonth()+1}月${dd.getDate()}日 ${n?n+'問解答':'学習なし'}">${dd.getDate()}</span>`}
+ const hint=st.cur===0?'今日1問解いて、連続記録をスタートしよう。':(st.studiedToday?'今日の分は達成済みです。':'今日1問解くと、記録がつながります。');
+ return `<div class="sp-card"><h3>連続学習日数</h3><div class="sp-big">${st.cur}<small>日連続</small></div><div class="sp-sub">最長 ${st.best}日　今日 ${st.doneToday}問</div><div class="sp-sub">${hint}</div><div class="sp-strip" role="img" aria-label="直近14日間の学習記録">${strip}</div></div>`;
+}
+function spReviewCardHtml(due){
+ const up=spUpcoming();
+ return `<div class="sp-card"><h3>今日の復習（間隔反復）</h3><div class="sp-big">${due}<small>問</small></div><div class="sp-sub">${due?'間違えた問題が、復習の時期になりました。':'いま復習する問題はありません。間違えた問題は自動で登録されます。'}</div><div class="sp-sub">明日 ${up.tomorrow}問　7日以内 ${up.week}問　習得済み ${up.mastered}問</div><button class="btn primary small" type="button" ${due?'':'disabled'} onclick="spStartReview()">復習を始める${due>20?'（最大20問）':''}</button></div>`;
+}
+function spAccuracyHtml(){
+ const rows=spAccuracyRows(),limit=spAccMode==='tag'&&!spAccShowAll?8:rows.length,shown=rows.slice(0,limit);
+ const toggle=`<div class="sp-seg" role="group" aria-label="集計の単位"><button type="button" class="btn small ${spAccMode==='subject'?'primary':'light'}" onclick="spSetAccMode('subject')">科目別</button><button type="button" class="btn small ${spAccMode==='tag'?'primary':'light'}" onclick="spSetAccMode('tag')">タグ別</button></div>`;
+ let list;
+ if(!rows.length){list=`<div class="empty"><strong>${spAccMode==='tag'?'タグのついた問題がありません':'まだ問題がありません'}</strong>問題を登録して解くと、ここに正答率が表示されます。</div>`}
+ else list=shown.map(r=>{
+  const low=r.rate!==null&&r.rate<60&&r.att>=3;
+  const val=r.rate===null?'<span class="muted">未回答</span>':`<strong>${r.rate}%</strong> <small>(${r.cor}/${r.att})</small>`;
+  return `<div class="sp-acc-row"><div class="sp-acc-label">${esc(r.label)}${low?' <span class="tag sp-weak">苦手</span>':''}<small>${r.n}問</small></div><div class="sp-bar${low?' low':''}" role="img" aria-label="${esc(r.label)}の正答率 ${r.rate===null?'未回答':r.rate+'%'}"><i style="width:${r.rate||0}%"></i></div><div class="sp-acc-val">${val}</div><button type="button" class="btn small light sp-practice" data-kind="${spAccMode}" data-label="${esc(r.label)}">演習</button></div>`;
+ }).join('');
+ const more=spAccMode==='tag'&&rows.length>8?`<div style="text-align:center;margin-top:8px"><button type="button" class="btn small light" onclick="spToggleAccAll()">${spAccShowAll?'上位だけ表示':`すべて表示（${rows.length}件）`}</button></div>`:'';
+ return `<div class="panel sp-acc"><div class="sp-acc-head"><div><h3 style="margin:0">分野ごとの正答率</h3><p style="margin:4px 0 0">正答率が低い順に表示します。「演習」で、その分野だけ解けます。</p></div>${toggle}</div>${list}${more}</div>`;
+}
+function renderStudyPlus(){
+ const host=document.getElementById('studyPlusHome');if(!host)return;
+ const due=spDueList().length,unseen=questions.filter(isUnansweredQuestion).length,st=spStreak();
+ host.innerHTML=`<div class="sp-grid">${spExamCardHtml(due,unseen,st.doneToday)}${spStreakCardHtml(st)}${spReviewCardHtml(due)}</div>${spAccuracyHtml()}`;
+}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.sp-practice');if(b)spPracticeBy(b.dataset.kind,b.dataset.label||'')});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&typeof currentView!=='undefined'&&currentView==='home')renderHome()}); // 日付をまたいだ後の再表示
 function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){storageAvailable=false;return []}}
 function loadLearningHistory(){try{const x=JSON.parse(localStorage.getItem(HISTORY_KEY)||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch(e){return {}}}
 function saveLearningHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(learningHistory));return true}catch(e){return false}}
@@ -126,7 +387,7 @@ function deleteQuestion(id){let q=questions.find(x=>x.id===id);if(!q)return;if(c
 function card(q,selectable=false){return `<article class="qcard">${selectable&&bulkSelectMode?`<label style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700"><input class="question-select" type="checkbox" value="${esc(q.id)}" ${selectedQuestionIds.has(q.id)?'checked':''} onchange="this.checked?selectedQuestionIds.add(this.value):selectedQuestionIds.delete(this.value);updateSelectedQuestionCount()"> 選択</label>`:''}<div class="qtop"><div class="tags"><span class="tag">${esc(q.subject)}</span><span class="tag">${esc(q.difficulty)}</span>${parseTags(q.unit).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div><span class="muted">${q.attempts?`回答 ${q.attempts}回`:'未回答'}</span></div><div class="qtext">${esc(q.question)}</div>${questionImagesHtml(q)}<div class="qfoot"><span class="muted">${q.attempts?`正答率 ${Math.round(q.correct/q.attempts*100)}%${q.lastResult===false?' · 前回不正解':''}`:'まだ解いていません'}</span><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn small light" onclick="editQuestion('${q.id}')">編集</button><button class="btn small danger" onclick="deleteQuestion('${q.id}')">削除</button></div></div></article>`}
 function isUnansweredQuestion(q){const h=learningHistory[String(q.id)]||{};return !(h.attempted||q.hasBeenAttempted||Number(h.attempts)>0||Number(q.attempts||0)>0||Number(q.correct||0)>0||Number(q.wrong||0)>0)}
 function renderLibrary(){let search=(document.getElementById('searchInput')?.value||'').toLowerCase();let sub=document.getElementById('filterSubject')?.value||'';let status=document.getElementById('filterStatus')?.value||'all';let arr=questions.filter(q=>(!sub||q.subject===sub)&&(`${q.question} ${q.unit} ${q.answer} ${q.subject}`.toLowerCase().includes(search))&&(status==='all'||(status==='wrong'&&q.wrong>0)||(status==='unseen'&&isUnansweredQuestion(q))));document.getElementById('libraryCount').textContent=`${arr.length} / ${questions.length}問`;document.getElementById('libraryList').innerHTML=arr.length?arr.map(q=>card(q,true)).join(''):'<div class="empty"><strong>該当する問題がありません</strong>条件を変えるか、新しい問題を追加してみよう。</div>';const all=document.getElementById('selectAllQuestions');if(all)all.checked=arr.length>0&&arr.every(q=>selectedQuestionIds.has(q.id));const panel=document.getElementById('bulkSelectPanel');if(panel)panel.classList.toggle('hidden',!bulkSelectMode);const btn=document.getElementById('bulkSelectToggle');if(btn)btn.textContent=bulkSelectMode?'選択を終了':'まとめて選択';updateSelectedQuestionCount()}
-function renderHome(){let attempts=questions.reduce((s,q)=>s+q.attempts,0),correct=questions.reduce((s,q)=>s+q.correct,0);document.getElementById('statTotal').textContent=questions.length;document.getElementById('statAnswered').textContent=attempts;document.getElementById('statRate').textContent=attempts?Math.round(correct/attempts*100)+'%':'--%';let r=questions.slice(0,3);document.getElementById('recentList').innerHTML=r.length?r.map(card).join(''):'<div class="empty"><strong>まだ問題がありません</strong>まずは1問、手入力で登録してみよう。<br><br><button class="btn primary" onclick="showView(\'add\')">最初の問題を追加</button></div>'}
+function renderHome(){try{renderStudyPlus()}catch(spErr){console.error(spErr)}let attempts=questions.reduce((s,q)=>s+q.attempts,0),correct=questions.reduce((s,q)=>s+q.correct,0);document.getElementById('statTotal').textContent=questions.length;document.getElementById('statAnswered').textContent=attempts;document.getElementById('statRate').textContent=attempts?Math.round(correct/attempts*100)+'%':'--%';let r=questions.slice(0,3);document.getElementById('recentList').innerHTML=r.length?r.map(card).join(''):'<div class="empty"><strong>まだ問題がありません</strong>まずは1問、手入力で登録してみよう。<br><br><button class="btn primary" onclick="showView(\'add\')">最初の問題を追加</button></div>'}
 function renderAll(){renderHome();if(!document.getElementById('libraryView').classList.contains('hidden'))renderLibrary();updatePracticeHint()}
 function updatePracticeHint(){let n=questions.length;document.getElementById('practiceHint').textContent=n?`登録済み ${n} 問。科目と範囲を選んで演習を開始できます。`:'問題を登録すると、ここから演習を始められる。'}
 const practiceSubjects=['数学','英語','化学','生物','物理','国語','地理・歴史','公共政治経済','情報','その他'];
@@ -188,11 +449,11 @@ function getPracticeFilteredQuestions(){
   const tagMatches=!terms.length||(tagMode==='and'
    ?terms.every(term=>tags.some(t=>t.includes(term)))
    :tags.some(t=>terms.some(term=>t.includes(term))));
-  return !recentIds.has(String(q.id))&&
+  return (mode==='due'||!recentIds.has(String(q.id)))&&
    (!selected.size||selected.has(q.subject))&&!excluded.has(q.subject)&&
    (!difficulty||q.difficulty===difficulty)&&tagMatches&&
    !parseTags(q.unit).some(t=>excludedPracticeTags.has(t))&&
-   (mode==='all'||(mode==='wrong'&&Number(q.wrong)>0)||(mode==='unseen'&&isUnansweredQuestion(q)));
+   (mode==='all'||(mode==='wrong'&&Number(q.wrong)>0)||(mode==='unseen'&&isUnansweredQuestion(q))||(mode==='due'&&spIsDue(q)));
  });
 }
 function savePracticeSettings(){
@@ -216,7 +477,7 @@ function loadPracticeSettings(){
   excludedPracticeTags=new Set(Array.isArray(data.excludedTags)?data.excludedTags.map(String):[]);
   const set=(id,value)=>{const el=document.getElementById(id);if(el&&value!==undefined)el.value=value};
   set('practiceTagFilter',data.tagFilter||'');set('practiceTagMatch',data.tagMatch==='and'?'and':'or');
-  set('practiceDifficulty',data.difficulty||'');set('practiceMode',['all','wrong','unseen'].includes(data.mode)?data.mode:'all');
+  set('practiceDifficulty',data.difficulty||'');set('practiceMode',['all','wrong','unseen','due'].includes(data.mode)?data.mode:'all');
   set('practiceCount',['5','10','20','all'].includes(String(data.count))?String(data.count):'10');set('practiceDirection',data.direction==='reverse'?'reverse':'forward');
  }catch(e){}
 }
@@ -227,7 +488,7 @@ function updatePracticePreview(){
  const directionBox=document.getElementById('practiceDirectionBox');const reversibleOnly=matches.length>0&&matches.every(isReversibleQuestion)&&matches.every(q=>!isChoiceQuestion(q)&&!isFillQuestion(q));if(directionBox)directionBox.classList.toggle('hidden',!reversibleOnly);
  const count=document.getElementById('practiceCount')?.value||'10';
  const planned=count==='all'?matches.length:Math.min(matches.length,Number(count)||0);
- const modeLabels={all:'すべての問題',wrong:'間違えた問題だけ',unseen:'未回答の問題'};
+ const modeLabels={all:'すべての問題',wrong:'間違えた問題だけ',unseen:'未回答の問題',due:'今日の復習（間隔反復）'};const isDueMode=(document.getElementById('practiceMode')?.value||'all')==='due';
  const difficulty=document.getElementById('practiceDifficulty')?.value||'全難易度';
  const tagText=(document.getElementById('practiceTagFilter')?.value||'').trim();
  const chips=[];
@@ -240,7 +501,7 @@ function updatePracticePreview(){
  if(excludedPracticeTags.size)chips.push(`タグ除外：${[...excludedPracticeTags].join('・')}`);
  const conflicts=[...selectedPracticeSubjects].filter(x=>excludedPracticeSubjects.has(x));
  const recentCount=(learningHistory.__lastPracticeSession?.questionIds||[]).length;
- el.innerHTML=`<div class="preview-label">今回の演習条件</div><div class="preview-tags">${chips.map(x=>`<span class="preview-chip">${esc(x)}</span>`).join('')}</div><div style="margin-top:10px">条件に合う問題：<strong>${matches.length}問</strong>　今回の出題数：<strong>${planned}問</strong></div>${recentCount?`<div class="muted" style="margin-top:5px">直前の演習で出題した${recentCount}問は、今回の候補から除外しています。</div>`:''}${conflicts.length?'<div class="muted">対象と除外の両方に選んだ科目は、除外が優先されます。</div>':''}${!matches.length?'<div class="muted">該当する問題がありません。直前の演習と重複しない問題がない場合は、出題範囲を広げるか、別の問題を追加してください。</div>':'<div class="muted">直前の演習と重複しない問題から、解答回数が少ない順に、同じ回数の中ではランダムに出題します。</div>'}`;
+ el.innerHTML=`<div class="preview-label">今回の演習条件</div><div class="preview-tags">${chips.map(x=>`<span class="preview-chip">${esc(x)}</span>`).join('')}</div><div style="margin-top:10px">条件に合う問題：<strong>${matches.length}問</strong>　今回の出題数：<strong>${planned}問</strong></div>${recentCount&&!isDueMode?`<div class="muted" style="margin-top:5px">直前の演習で出題した${recentCount}問は、今回の候補から除外しています。</div>`:''}${conflicts.length?'<div class="muted">対象と除外の両方に選んだ科目は、除外が優先されます。</div>':''}${!matches.length?'<div class="muted">該当する問題がありません。直前の演習と重複しない問題がない場合は、出題範囲を広げるか、別の問題を追加してください。</div>':(isDueMode?'<div class="muted">復習の期限が古い問題から順に出題します。</div>':'<div class="muted">直前の演習と重複しない問題から、解答回数が少ない順に、同じ回数の中ではランダムに出題します。</div>')}`;
 }
 function startPractice(){
  savePracticeSettings();
@@ -263,6 +524,7 @@ function startPractice(){
    }
   arr.push(...group);
  });
+ if(document.getElementById('practiceMode')?.value==='due')arr=spSortDue(arr);
  if(count!=='all')arr=arr.slice(0,Number(count));
  const direction=(arr.length&&arr.every(isReversibleQuestion)&&arr.every(q=>!isChoiceQuestion(q)&&!isFillQuestion(q)))?(document.getElementById('practiceDirection')?.value||'forward'):'forward';
  if(!arr.length){document.getElementById('quizArea').innerHTML='<div class="empty"><strong>出題できる問題がありません</strong>直前の演習と重複しない問題が残っていない可能性があります。出題範囲を広げるか、別の問題を追加してください。</div>';quiz=null;updatePracticePreview();return}
@@ -317,8 +579,8 @@ function isListAnswerQuestion(q){const text=String(q?.question||'');return /(?:\
 function listAnswerKey(value){return String(value??'').normalize('NFKC').trim().toLocaleLowerCase().split(/[、，,・･;；/／\n\r]+|\s*と\s*|\s+/u).map(x=>x.replace(/^[\s「『（(【［]+|[\s」』）)】］。．.]+$/g,'').trim()).filter(Boolean).sort().join('\u0001')}
 function matchesAnswer(q,given){const expectedText=String(q?.answer??'').normalize('NFKC');const hasListSeparators=/[、，,・･;；/／\n\r]|\sと\s|と/u.test(expectedText);if(isListAnswerQuestion(q)||hasListSeparators){const actual=listAnswerKey(given),expected=listAnswerKey(expectedText);return !!actual&&actual===expected}return String(q.answer||'').split('/').map(norm).includes(norm(given))}
 function checkAnswer(){if(!quiz||quiz.answered)return;finishThinkingTimer();let q=quiz.items[quiz.index],choice=isChoiceQuestion(q),multi=isMultiChoiceQuestion(q),fill=isFillQuestion(q),given='',ok=false;if(choice){if(multi){const selected=quiz.selectedChoices||[],limit=Number(q.selectionLimit)||1;if(selected.length===0){toast('選択肢を1個以上選んでください');return}const order=quiz.choiceOrders[String(q.id)]||((q.choices||[]).map((_,i)=>i));const original=selected.map(i=>order[i]);given=original.map(i=>q.choices[i]).join(' / ');const expected=Array.isArray(q.correctChoices)&&q.correctChoices.length?q.correctChoices:[Number(q.correctChoice)];ok=original.length===expected.length&&original.every(i=>expected.includes(i))}else{if(quiz.selectedChoice===null||quiz.selectedChoice===undefined){toast('選択肢を選んでください');return}const order=quiz.choiceOrders[String(q.id)]||((q.choices||[]).map((_,i)=>i));const original=order[quiz.selectedChoice];given=q.choices[original]||'';ok=Number(original)===Number(q.correctChoice)}}else if(fill){const inputs=[...document.querySelectorAll('.quiz-fill-input')];if(!inputs.length||inputs.some(el=>!el.value.trim())){toast('すべての穴埋め欄に入力してください');return}const answers=Array.isArray(q.blankAnswers)?q.blankAnswers:[];given=inputs.map(el=>`(${el.dataset.label}) ${el.value.trim()}`).join(' / ');ok=inputs.every(el=>{const expected=answers.find(x=>x.label===el.dataset.label)?.answer||'';return expected.split('/').map(norm).includes(norm(el.value))})}else{given=document.getElementById('quizAnswer').value.trim();if(!given){toast('答えを入力してください');return}ok=matchesAnswer(quiz.direction==='reverse'?{question:q.answer,answer:q.question}:q,given)}recordResult(ok,given);document.querySelectorAll('#quizAnswer,.quiz-fill-input').forEach(el=>el.disabled=true);document.querySelectorAll('#choiceOptions .choice').forEach(el=>el.disabled=true);document.getElementById('checkBtn').disabled=true;document.getElementById('nextBtn').classList.remove('hidden');document.getElementById('nextBtn').textContent=quiz.index===quiz.items.length-1?'結果を見る':'次の問題 →';showFeedback(given,ok)}
-function recordResult(ok,given=''){let q=quiz.items[quiz.index];q.attempts=(Number(q.attempts)||0)+1;q.correct=(Number(q.correct)||0)+(ok?1:0);q.wrong=(Number(q.wrong)||0)+(ok?0:1);markQuestionAttempted(q,ok?'correct':'wrong');if(ok){quiz.correct++;q.roundCorrect=true}else q.roundCorrect=false;q.lastResult=ok;quiz.currentResult=ok;quiz.answered=true;quiz.results.push({id:q.id,status:ok?'correct':'wrong',given});appendAttemptHistory(q,ok?'correct':'wrong',given);persist()}
-function correctLastResult(){if(!quiz||!quiz.answered)return;let q=quiz.items[quiz.index],was=!!q.lastResult;if(!confirm('現在の判定を反転しますか？\nOK：現在の判定と逆に修正\nキャンセル：何も変更しない'))return;if(was){q.correct=Math.max(0,(q.correct||0)-1);q.wrong=(q.wrong||0)+1;quiz.correct=Math.max(0,quiz.correct-1);q.roundCorrect=false}else{q.wrong=Math.max(0,(q.wrong||0)-1);q.correct=(q.correct||0)+1;quiz.correct++;q.roundCorrect=true}q.lastResult=!was;const previous=quiz.results[quiz.results.length-1]||{};const given=previous.given??quiz.currentGiven??'';quiz.currentGiven=given;quiz.results[quiz.results.length-1]={...previous,id:q.id,status:!was?'correct':'wrong',given};const records=learningHistory.__records||[];const latest=[...records].reverse().find(r=>String(r.questionId)===String(q.id));if(latest){latest.status=!was?'correct':'wrong';latest.given=given;saveLearningHistory()}persist();showFeedback(given,!was);toast('判定を反転しました')}
+function recordResult(ok,given=''){let q=quiz.items[quiz.index];q.attempts=(Number(q.attempts)||0)+1;q.correct=(Number(q.correct)||0)+(ok?1:0);q.wrong=(Number(q.wrong)||0)+(ok?0:1);markQuestionAttempted(q,ok?'correct':'wrong');spOnResult(q,ok);if(ok){quiz.correct++;q.roundCorrect=true}else q.roundCorrect=false;q.lastResult=ok;quiz.currentResult=ok;quiz.answered=true;quiz.results.push({id:q.id,status:ok?'correct':'wrong',given});appendAttemptHistory(q,ok?'correct':'wrong',given);persist()}
+function correctLastResult(){if(!quiz||!quiz.answered)return;let q=quiz.items[quiz.index],was=!!q.lastResult;if(!confirm('現在の判定を反転しますか？\nOK：現在の判定と逆に修正\nキャンセル：何も変更しない'))return;if(was){q.correct=Math.max(0,(q.correct||0)-1);q.wrong=(q.wrong||0)+1;quiz.correct=Math.max(0,quiz.correct-1);q.roundCorrect=false}else{q.wrong=Math.max(0,(q.wrong||0)-1);q.correct=(q.correct||0)+1;quiz.correct++;q.roundCorrect=true}q.lastResult=!was;spOnFlip(q,!was);const previous=quiz.results[quiz.results.length-1]||{};const given=previous.given??quiz.currentGiven??'';quiz.currentGiven=given;quiz.results[quiz.results.length-1]={...previous,id:q.id,status:!was?'correct':'wrong',given};const records=learningHistory.__records||[];const latest=[...records].reverse().find(r=>String(r.questionId)===String(q.id));if(latest){latest.status=!was?'correct':'wrong';latest.given=given;saveLearningHistory()}persist();showFeedback(given,!was);toast('判定を反転しました')}
 function revealWrittenAnswer(){if(!quiz||quiz.answered||quiz.revealed)return;finishThinkingTimer();let q=quiz.items[quiz.index];quiz.currentGiven=document.getElementById('quizAnswer')?.value.trim()||'（未入力）';appendAttemptHistory(q,'written',quiz.currentGiven);markQuestionAttempted(q,'revealed');quiz.revealed=true;persist();document.getElementById('quizAnswer').disabled=true;document.getElementById('checkBtn').disabled=true;showWrittenFeedback()}
 function showWrittenFeedback(){let q=quiz.items[quiz.index];document.getElementById('quizFeedback').innerHTML=`<div class="feedback" style="background:#eef3ed;color:var(--ink)"><strong>解答</strong><br>${esc(quizExpected(q))}${q.explanation?`<br><br><strong>解説</strong><br>${esc(q.explanation)}`:'<br><br><span class="muted">解説は登録されていません。</span>'}${explanationImagesHtml(q)}<br><br><strong>自分の解答と比べて判定してください。</strong><div class="actions" style="margin-top:12px"><button class="btn primary" onclick="markWrittenResult(true)">正解にする</button><button class="btn danger" onclick="markWrittenResult(false)">不正解にする</button></div></div>`}
 function markWrittenResult(ok){if(!quiz||quiz.answered)return;recordResult(ok,quiz.currentGiven||'（未入力）');showFeedback(quiz.currentGiven||'（未入力）',ok);document.getElementById('nextBtn').classList.remove('hidden');document.getElementById('nextBtn').textContent=quiz.index===quiz.items.length-1?'結果を見る':'次の問題 →'}
@@ -334,8 +596,8 @@ function removeQuestionImage(i){pendingQuestionImages.splice(i,1);renderQuestion
 async function handleExplanationImages(e){let files=Array.from(e.target.files||[]);if(!files.length)return;for(let file of files){try{let data=await compressImage(file,1000,.62);pendingExplanationImages.push({name:file.name,data})}catch(err){toast(file.name+'を追加できませんでした')}}renderExplanationImagePreviews();e.target.value=''}
 function renderExplanationImagePreviews(){let el=document.getElementById('explanationImagePreviews');if(!el)return;el.innerHTML=pendingExplanationImages.map((x,i)=>`<div class="image-preview"><img src="${esc(x.data)}" alt="${esc(x.name)}"><div class="muted">${esc(x.name)}</div><button class="btn small danger" type="button" onclick="removeExplanationImage(${i})">削除</button></div>`).join('')}
 function removeExplanationImage(i){pendingExplanationImages.splice(i,1);renderExplanationImagePreviews()}
-function exportData(){let blob=new Blob([JSON.stringify({app:'Wake & Solve',version:20,exportedAt:new Date().toISOString(),questions},null,2)],{type:'application/json'});let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='wake-solve-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('バックアップのダウンロードを開始しました')}
-function importData(e){let f=e.target.files&&e.target.files[0];if(!f)return;let input=e.target;let r=new FileReader();r.onload=()=>{try{let data=JSON.parse(r.result),arr=Array.isArray(data)?data:data.questions;if(!Array.isArray(arr))throw Error('invalid backup');let valid=arr.filter(q=>q&&typeof q.question==='string'&&typeof q.answer==='string');if(!valid.length&&arr.length)throw Error('no valid questions');const pairKey=q=>JSON.stringify([String(q.question??''),String(q.answer??'')]);const knownPairs=new Set(questions.map(pairKey));let unique=[],skipped=0;for(const src of valid){const key=pairKey(src);if(String(src.question??'')!==''&&String(src.answer??'')!==''&&knownPairs.has(key)){skipped++;continue}knownPairs.add(key);unique.push(src)}if(!unique.length){toast(`読み込み対象の${valid.length}問はすべて登録済みです。重複追加はありません。`);return}if(!confirm(`${valid.length}問を確認しました。\n新規追加：${unique.length}問\n問題文と答えが完全一致するためスキップ：${skipped}問\n\n新しい問題だけ追加しますか？`))return;let ids=new Set(questions.map(q=>q.id));unique.forEach(src=>{let q={...src};if(!q.id||ids.has(q.id))q.id=uid();ids.add(q.id);questions.push({...q,attempts:Number(q.attempts)||0,correct:Number(q.correct)||0,wrong:Number(q.wrong)||0})});if(!persist())throw Error('storage failed');toast(`${unique.length}問を追加しました。完全一致によるスキップ：${skipped}問`)}catch(err){toast(err.message==='storage failed'?'保存容量不足で読み込めませんでした。既存データをバックアップしてください。':'JSONファイルを読み込めませんでした。Wake & SolveのバックアップJSONを選んでください。')}finally{input.value=''}};r.onerror=()=>{toast('ファイルを読み取れませんでした');input.value=''};r.readAsText(f)}
+function exportData(){let blob=new Blob([JSON.stringify({app:'Wake & Solve',version:20,exportedAt:new Date().toISOString(),questions,studyPlus},null,2)],{type:'application/json'});let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='wake-solve-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('バックアップのダウンロードを開始しました')}
+function importData(e){let f=e.target.files&&e.target.files[0];if(!f)return;let input=e.target;let r=new FileReader();r.onload=()=>{try{let data=JSON.parse(r.result),arr=Array.isArray(data)?data:data.questions;if(!Array.isArray(arr))throw Error('invalid backup');let valid=arr.filter(q=>q&&typeof q.question==='string'&&typeof q.answer==='string');if(!valid.length&&arr.length)throw Error('no valid questions');const pairKey=q=>JSON.stringify([String(q.question??''),String(q.answer??'')]);const knownPairs=new Set(questions.map(pairKey));let unique=[],skipped=0;for(const src of valid){const key=pairKey(src);if(String(src.question??'')!==''&&String(src.answer??'')!==''&&knownPairs.has(key)){skipped++;continue}knownPairs.add(key);unique.push(src)}if(!unique.length){toast(`読み込み対象の${valid.length}問はすべて登録済みです。重複追加はありません。`);return}if(!confirm(`${valid.length}問を確認しました。\n新規追加：${unique.length}問\n問題文と答えが完全一致するためスキップ：${skipped}問\n\n新しい問題だけ追加しますか？`))return;let ids=new Set(questions.map(q=>q.id));unique.forEach(src=>{let q={...src};if(!q.id||ids.has(q.id))q.id=uid();ids.add(q.id);questions.push({...q,attempts:Number(q.attempts)||0,correct:Number(q.correct)||0,wrong:Number(q.wrong)||0})});try{if(data&&!Array.isArray(data)&&data.studyPlus)mergeStudyPlus(data.studyPlus)}catch(spErr){console.error(spErr)}if(!persist())throw Error('storage failed');toast(`${unique.length}問を追加しました。完全一致によるスキップ：${skipped}問`)}catch(err){toast(err.message==='storage failed'?'保存容量不足で読み込めませんでした。既存データをバックアップしてください。':'JSONファイルを読み込めませんでした。Wake & SolveのバックアップJSONを選んでください。')}finally{input.value=''}};r.onerror=()=>{toast('ファイルを読み取れませんでした');input.value=''};r.readAsText(f)}
 // Cloud sync: each Firebase UID owns a separate document.
 const FB_CONFIG_KEY='wakeSolveFirebaseConfig_v1';
 // Built-in Firebase project config: users do not need to enter this manually.
@@ -380,8 +642,8 @@ async function initCloud(showMessage=false){
             const oldHistoryJson=JSON.stringify(remoteHistory);
             questions=mergeQuestionsForSync(localQuestions,remoteQuestions);
             deletedQuestions=mergeTrashForSync(localTrash,Array.isArray(data.deletedQuestions)?data.deletedQuestions:[]);
-            mergeQuestionProgress(localQuestions,questions,remoteHistory);
-            const mergedNeedsSave=JSON.stringify(questions)!==oldQuestionsJson || JSON.stringify(deletedQuestions)!==oldTrashJson || JSON.stringify(learningHistory)!==oldHistoryJson || JSON.stringify(sharedSubscriptions)!==oldSubsJson;
+            mergeQuestionProgress(localQuestions,questions,remoteHistory);const spChanged=mergeStudyPlus(data.studyPlus);
+            const mergedNeedsSave=JSON.stringify(questions)!==oldQuestionsJson || JSON.stringify(deletedQuestions)!==oldTrashJson || JSON.stringify(learningHistory)!==oldHistoryJson || JSON.stringify(sharedSubscriptions)!==oldSubsJson || spChanged;
             try{localStorage.setItem(KEY,JSON.stringify(questions));localStorage.setItem(TRASH_KEY,JSON.stringify(deletedQuestions))}catch(e){}
             const removedDuplicates=deduplicateExistingAnswers();renderAll();applyingCloud=false;cloudReady=true;
             // Persist the union so a stale cloud snapshot cannot delete local-only
@@ -401,7 +663,7 @@ async function initCloud(showMessage=false){
 async function cloudSignUp(){if(!fbAuth){await initCloud();if(!fbAuth){cloudStatus('Firebaseへの接続を確認できません。通信環境を確認してください。');return}}const email=document.getElementById('cloudEmail').value.trim(),pw=document.getElementById('cloudPassword').value;if(!email||pw.length<6){cloudStatus('メールアドレスと6文字以上のパスワードを入力してください。');return}try{await fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);await fbAuth.createUserWithEmailAndPassword(email,pw);showView('home');toast('アカウントを作成しました')}catch(e){cloudStatus('登録できません：'+e.message)}}
 async function cloudSignIn(){if(!fbAuth){await initCloud();if(!fbAuth){cloudStatus('Firebaseへの接続を確認できません。通信環境を確認してください。');return}}const email=document.getElementById('cloudEmail').value.trim(),pw=document.getElementById('cloudPassword').value;if(!email||!pw){cloudStatus('メールアドレスとパスワードを入力してください。');return}try{await fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);await fbAuth.signInWithEmailAndPassword(email,pw);showView('home')}catch(e){cloudStatus('ログインできません：'+e.message)}}
 async function cloudSignOut(){if(fbAuth)try{await fbAuth.signOut()}catch(e){cloudStatus('ログアウトできません：'+e.message)}}
-function cloudPayload(){return {questions:questions,deletedQuestions:deletedQuestions,learningHistory:learningHistory,sharedSubscriptions:sharedSubscriptions,updatedAt:firebase.firestore.FieldValue.serverTimestamp()}}
+function cloudPayload(){return {questions:questions,deletedQuestions:deletedQuestions,learningHistory:learningHistory,studyPlus:studyPlus,sharedSubscriptions:sharedSubscriptions,updatedAt:firebase.firestore.FieldValue.serverTimestamp()}}
 async function cloudSaveNow(){if(!cloudUser||!fbDb||applyingCloud)throw Error('クラウドに接続されていません');clearTimeout(cloudSaveTimer);await fbDb.collection('users').doc(cloudUser.uid).set(cloudPayload());cloudStatus('同期中 · クラウドに保存しました')}
 function cloudSave(first=false){if(!cloudUser||!fbDb||!cloudReady&&!first||applyingCloud)return;clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(async()=>{try{await fbDb.collection('users').doc(cloudUser.uid).set(cloudPayload());cloudStatus('同期中 · クラウドに保存しました')}catch(e){cloudStatus('保存エラー：'+e.message+'。接続とFirestoreルールを確認してください。')}},first?0:250)}
 window.addEventListener('load',async()=>{loadPracticeSettings();questions.forEach(q=>{if(q&&(q.hasBeenAttempted||Number(q.attempts)>0||Number(q.correct)>0||Number(q.wrong)>0)){const id=String(q.id);learningHistory[id]={...(learningHistory[id]||{}),attempted:true}}});saveLearningHistory();const removed=deduplicateExistingAnswers();if(removed)toast(`${removed}問の答えの重複を検出し、削除した問題へ移動しました`);const c=loadFirebaseConfig();for(const [id,key] of [['fbApiKey','apiKey'],['fbAuthDomain','authDomain'],['fbProjectId','projectId'],['fbAppId','appId']])document.getElementById(id).value=c[key]||'';cloudStatus('ログイン状態を確認しています…');await initCloud()});
