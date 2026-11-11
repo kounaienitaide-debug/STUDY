@@ -274,7 +274,7 @@ function startPractice(){
  arr.forEach(q=>{if(isChoiceQuestion(q)&&Array.isArray(q.choices)&&q.choices.length>1){let order=q.choices.map((_,i)=>i);for(let i=order.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}quiz.choiceOrders[String(q.id)]=order}});
  renderQuiz();
 }
-function isWrittenQuestion(q){return parseTags(q.unit).some(t=>t==='記述式')}
+function isWrittenQuestion(q){return parseTags(q?.unit||'').some(t=>t==='記述式')||(quiz?.direction==='reverse'&&isReversibleQuestion(q))}
 function isThinkingQuestion(q){return parseTags(q.unit).some(t=>t==='思考問題')}
 function pauseThinkingTimer(){if(!quiz)return;const q=quiz.items[quiz.index];if(!isThinkingQuestion(q)||quiz.answered||quiz.revealed)return;const t=quiz.timings[String(q.id)];if(!t||t.pausedAt)return;t.pausedAt=Date.now();const overlay=document.getElementById('thinkingTimerPause');if(overlay){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false')}const btn=document.getElementById('pauseThinkingTimerBtn');if(btn)btn.disabled=true}
 function resumeThinkingTimer(){if(!quiz)return;const q=quiz.items[quiz.index];if(!q)return;const t=quiz.timings[String(q.id)];if(t&&t.pausedAt){const pausedFor=Math.max(0,Date.now()-t.pausedAt);if(t.readAt===null)t.startedAt+=pausedFor;else t.readAt+=pausedFor;t.pausedAt=null}const overlay=document.getElementById('thinkingTimerPause');if(overlay){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true')}const btn=document.getElementById('pauseThinkingTimerBtn');if(btn)btn.disabled=false}
