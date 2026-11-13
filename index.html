@@ -584,8 +584,33 @@ let reviewReturnTarget='result';let reviewSourceView='practice';function openRev
 function selectQuizChoice(i){if(!quiz||quiz.answered)return;const q=quiz.items[quiz.index];if(isMultiChoiceQuestion(q)){const arr=quiz.selectedChoices||[],pos=arr.indexOf(i);if(pos>=0)arr.splice(pos,1);else{if(arr.length>=(Number(q.selectionLimit)||1)){toast(`選択できるのは最大${Number(q.selectionLimit)||1}個までです`);return}arr.push(i)}quiz.selectedChoices=arr;document.querySelectorAll('#choiceOptions .choice').forEach((el,j)=>el.classList.toggle('selected',arr.includes(j)))}else{quiz.selectedChoice=i;document.querySelectorAll('#choiceOptions .choice').forEach((el,j)=>el.classList.toggle('selected',i===j))}}
 function norm(s){return String(s||'').trim().toLowerCase().replace(/[\s　。、，,．.]/g,'').replace(/−/g,'-')}
 function isListAnswerQuestion(q){const text=String(q?.question||'').normalize('NFKC');return /(?:\d+|[一二三四五六七八九十百]+)\s*(?:個|つ|種類|項目|点|語|名)|すべて|全て|全部|列挙/.test(text)}
-function listAnswerKey(value){return String(value??'').normalize('NFKC').trim().toLocaleLowerCase().split(/[、，,・･;；/／\n\r]+|\s*と\s*|\s+/u).map(x=>x.replace(/^[\s「『（(【［]+|[\s」』）)】］。．.]+$/g,'').trim()).filter(Boolean).sort().join('\u0001')}
-function matchesAnswer(q,given){const expectedText=String(q?.answer??'').normalize('NFKC');const hasNonSlashListSeparators=/[、，,・･;；\n\r]|\sと\s|と/u.test(expectedText);if(isListAnswerQuestion(q)||(hasNonSlashListSeparators&&!expectedText.includes('/'))){const actual=listAnswerKey(given),expected=listAnswerKey(expectedText);return !!actual&&actual===expected}return expectedText.split(/[\/／]/).map(norm).filter(Boolean).includes(norm(given))}
+/* 解答判定：
+   ・「/」は「どちらでも正解」の別解の区切り（例：許諾/許可 → どちらでも正解）。
+   ・「2つ答えよ」などの複数解答は「、」「・」「,」「;」「改行」「と」「空白」で区切る。「/」では区切らない。
+   ・複数解答の各項目の中に「/」があれば、その項目の別解として扱う（例：複製権/コピー権、公衆送信権）。 */
+const ANSWER_ITEM_SEPARATORS=/[、，,・･;；\n\r]+|\s*と\s*|\s+/u;
+function answerCleanToken(x){return String(x||'').replace(/^[\s「『（(【［]+|[\s」』）)】］。．.]+$/g,'').trim()}
+function answerItems(value){
+ const text=String(value??'').normalize('NFKC').trim().toLocaleLowerCase().replace(/\s*\/\s*/g,'/');
+ return text.split(ANSWER_ITEM_SEPARATORS).map(answerCleanToken).filter(Boolean);
+}
+function answerAlternatives(item){return String(item).split('/').map(x=>norm(answerCleanToken(x))).filter(Boolean)}
+function answerItemsMatch(expectedItems,givenItems){ // 順不同で、解答の各項目が別々の期待項目の別解のどれかに一致するか
+ const exp=expectedItems.map(answerAlternatives),act=givenItems.map(norm).filter(Boolean);
+ if(!exp.length||exp.some(a=>!a.length)||exp.length!==act.length)return false;
+ const used=new Array(exp.length).fill(false);
+ const place=i=>{if(i===act.length)return true;for(let j=0;j<exp.length;j++){if(!used[j]&&exp[j].includes(act[i])){used[j]=true;if(place(i+1))return true;used[j]=false}}return false};
+ return place(0);
+}
+function matchesAnswer(q,given){
+ const expectedText=String(q?.answer??'').normalize('NFKC');
+ const hasStrongSeparators=/[、，,・･;；\n\r]/u.test(expectedText);
+ const hasWeakSeparators=!expectedText.includes('/')&&/\sと\s|と/u.test(expectedText);
+ if(isListAnswerQuestion(q)||hasStrongSeparators||hasWeakSeparators){
+  return answerItemsMatch(answerItems(expectedText),answerItems(given));
+ }
+ return expectedText.split(/[\/／]/).map(norm).filter(Boolean).includes(norm(given));
+}
 function checkAnswer(){if(!quiz||quiz.answered)return;finishThinkingTimer();let q=quiz.items[quiz.index],choice=isChoiceQuestion(q),multi=isMultiChoiceQuestion(q),fill=isFillQuestion(q),given='',ok=false;if(choice){if(multi){const selected=quiz.selectedChoices||[],limit=Number(q.selectionLimit)||1;if(selected.length===0){toast('選択肢を1個以上選んでください');return}const order=quiz.choiceOrders[String(q.id)]||((q.choices||[]).map((_,i)=>i));const original=selected.map(i=>order[i]);given=original.map(i=>q.choices[i]).join(' / ');const expected=Array.isArray(q.correctChoices)&&q.correctChoices.length?q.correctChoices:[Number(q.correctChoice)];ok=original.length===expected.length&&original.every(i=>expected.includes(i))}else{if(quiz.selectedChoice===null||quiz.selectedChoice===undefined){toast('選択肢を選んでください');return}const order=quiz.choiceOrders[String(q.id)]||((q.choices||[]).map((_,i)=>i));const original=order[quiz.selectedChoice];given=q.choices[original]||'';ok=Number(original)===Number(q.correctChoice)}}else if(fill){const inputs=[...document.querySelectorAll('.quiz-fill-input')];if(!inputs.length||inputs.some(el=>!el.value.trim())){toast('すべての穴埋め欄に入力してください');return}const answers=Array.isArray(q.blankAnswers)?q.blankAnswers:[];given=inputs.map(el=>`(${el.dataset.label}) ${el.value.trim()}`).join(' / ');ok=inputs.every(el=>{const expected=answers.find(x=>x.label===el.dataset.label)?.answer||'';return expected.split('/').map(norm).includes(norm(el.value))})}else{given=document.getElementById('quizAnswer').value.trim();if(!given){toast('答えを入力してください');return}ok=matchesAnswer(quiz.direction==='reverse'?{question:q.answer,answer:q.question}:q,given)}recordResult(ok,given);document.querySelectorAll('#quizAnswer,.quiz-fill-input').forEach(el=>el.disabled=true);document.querySelectorAll('#choiceOptions .choice').forEach(el=>el.disabled=true);document.getElementById('checkBtn').disabled=true;document.getElementById('nextBtn').classList.remove('hidden');document.getElementById('nextBtn').textContent=quiz.index===quiz.items.length-1?'結果を見る':'次の問題 →';showFeedback(given,ok)}
 function recordResult(ok,given=''){let q=quiz.items[quiz.index];q.attempts=(Number(q.attempts)||0)+1;q.correct=(Number(q.correct)||0)+(ok?1:0);q.wrong=(Number(q.wrong)||0)+(ok?0:1);markQuestionAttempted(q,ok?'correct':'wrong');spOnResult(q,ok);if(ok){quiz.correct++;q.roundCorrect=true}else q.roundCorrect=false;q.lastResult=ok;quiz.currentResult=ok;quiz.answered=true;quiz.results.push({id:q.id,status:ok?'correct':'wrong',given});appendAttemptHistory(q,ok?'correct':'wrong',given);persist()}
 function correctLastResult(){if(!quiz||!quiz.answered)return;let q=quiz.items[quiz.index],was=!!q.lastResult;if(!confirm('現在の判定を反転しますか？\nOK：現在の判定と逆に修正\nキャンセル：何も変更しない'))return;if(was){q.correct=Math.max(0,(q.correct||0)-1);q.wrong=(q.wrong||0)+1;quiz.correct=Math.max(0,quiz.correct-1);q.roundCorrect=false}else{q.wrong=Math.max(0,(q.wrong||0)-1);q.correct=(q.correct||0)+1;quiz.correct++;q.roundCorrect=true}q.lastResult=!was;spOnFlip(q,!was);const previous=quiz.results[quiz.results.length-1]||{};const given=previous.given??quiz.currentGiven??'';quiz.currentGiven=given;quiz.results[quiz.results.length-1]={...previous,id:q.id,status:!was?'correct':'wrong',given};const records=learningHistory.__records||[];const latest=[...records].reverse().find(r=>String(r.questionId)===String(q.id));if(latest){latest.status=!was?'correct':'wrong';latest.given=given;saveLearningHistory()}persist();showFeedback(given,!was);toast('判定を反転しました')}
